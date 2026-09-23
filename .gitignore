@@ -1,0 +1,29 @@
+# local archives, credentials, and generated files
+archive/
+artifacts/
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.creds
+.creds.*
+*.pem
+*.key
+*.log
+
+# notebooks need credential and saved-output cleanup before publishing
+analytics/notebooks/*.ipynb
+
+# legacy helpers contain embedded database credentials
+analytics/src/analytics/frankfurt_data.py
+analytics/src/analytics/frankfurt_data2.py
+analytics/src/analytics/tokyo_data.py
+
+# raw capture output from the existing study script
+operations/utilities/bitstamp-live-orders-*.json

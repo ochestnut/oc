@@ -1,0 +1,29 @@
+// booktop_bitstamp_alts.json5
+{
+  "ref": {
+    "exchange": "BITSTAMP_FIX",
+    "credentials_file": "$JST_ROOT/.creds",
+    "credentials_key": "BBMM_FIX",
+    "proxy_ws_ip": null,
+    "fix_cfg_path": "/home/ubuntu/umm_config/bbmm/bitstamp_fix_md.cfg",
+  },
+  "instruments": [
+    {"instrument": "PAIR-LTC-USD"},
+    {"instrument": "PAIR-BCH-USD"},
+    {"instrument": "PAIR-AAVE-USD"},
+    {"instrument": "PAIR-HYPE-USD"},
+    {"instrument": "PAIR-USDC-USD"},
+    {"instrument": "PAIR-ASTER-USD"},
+    {"instrument": "PAIR-UNI-USD"},
+    {"instrument": "PAIR-USDG-USD"}
+  ],
+  "output_exchange": "BITSTAMP",
+  "main_core": 14,
+  "ws_core": 14,
+  "auto_remove": false,
+  "log_file": "/home/ubuntu/logs/booktop_bitstamp_alts.log",
+  "disable_latency_warnings": true,
+  "enable_measure_stats": true,
+  "research_mode": false,
+  "ignore_md_disconnects": false,
+}

@@ -1,0 +1,28 @@
+// booktop_bitstampperp.json5
+{
+  "ref": {
+    "exchange": "BITSTAMPPERP",
+    "credentials_file": "$JST_ROOT/.creds",
+    "credentials_key": "BVBS",
+    "proxy_ws_ip": null,
+    "fix_cfg_path": null,
+  },
+  // tier_1
+  "instruments": [
+    {"instrument": "PERP-BTC-USD"},
+    {"instrument": "PERP-ETH-USD"},
+    {"instrument": "PERP-SOL-USD"},
+    {"instrument": "PERP-XRP-USD"},
+    {"instrument": "PERP-DOGE-USD"},
+  ],
+  "output_type": "BOOKTOP",
+  // single core in L3 domain 0; must match the taskset mask in supervisord.conf
+  "main_core": 3,
+  "ws_core": 3,
+  "auto_remove": false,
+  "log_file": "/home/ubuntu/logs/booktop_bitstampperp.log",
+  "disable_latency_warnings": true,
+  "enable_measure_stats": true,
+  "recorder_mode": false,
+  "ignore_md_disconnects": false,
+}

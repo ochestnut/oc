@@ -1,0 +1,24 @@
+{
+  "ref": {
+    "exchange": "BITSTAMP_FIX",
+    "credentials_file": "$JST_ROOT/.creds",
+    "credentials_key": "JDBP",
+    "proxy_ws_ip": null,
+    "fix_cfg_path": "/home/ubuntu/umm_config/jdbp/bitstamp_fix_md.cfg",
+  },
+  "instruments": [
+    {"instrument": "PAIR-BTC-USD"},
+    {"instrument": "PAIR-ETH-USD"},
+    {"instrument": "PAIR-SOL-USD"},
+    {"instrument": "PAIR-DOGE-USD"},
+    {"instrument": "PAIR-XRP-USD"},
+  ],
+  "output_exchange": "BITSTAMP",
+  "main_core": 18,
+  "ws_core": 28,
+  "auto_remove": false,
+  "log_file": "/home/ubuntu/logs/bitstamp_fix_booktop.log",
+  "disable_latency_warnings": true,
+  "enable_measure_stats": true,
+  "recorder_mode": false,
+}
