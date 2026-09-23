@@ -18,7 +18,7 @@ venv/
 *.log
 
 # notebooks need credential and saved-output cleanup before publishing
-analytics/notebooks/*.ipynb
+analytics/notebooks/**/*.ipynb
 
 # legacy helpers contain embedded database credentials
 analytics/src/analytics/frankfurt_data.py
@@ -27,3 +27,6 @@ analytics/src/analytics/tokyo_data.py
 
 # raw capture output from the existing study script
 operations/utilities/bitstamp-live-orders-*.json
+
+# root scratch notebook remains local pending credential/output review
+/sandbox.ipynb

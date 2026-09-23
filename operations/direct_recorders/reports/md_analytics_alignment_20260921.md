@@ -40,7 +40,7 @@ analytics and recording are not fully aligned. the main confirmed fault is influ
 | `NYSE` | 5 | FR01, NY01 | TY04 |
 | `ONDO-SPOT` | 12 | TY04 | TY03 |
 
-the full symbol-level evidence is in the companion json file under `routing_misses`. counts describe observed routing misses, not lost data.
+the full symbol-level evidence is in the local archive at `archive/cleanup_20260922/operations/direct_recorders/reports/md_analytics_alignment_20260921.json` (relative to the oc root), under `routing_misses`. the original file is also retained in the initial git commit. counts describe observed routing misses, not lost data.
 
 ## implemented reader fixes
 

@@ -5,7 +5,7 @@ import websockets
 from bitstamp_live_orders_audit import audit
 
 MARKETS = ['btcusd-perp', 'ethusd-perp', 'solusd-perp']
-ROOT = pathlib.Path('/Users/owenchestnut/Desktop/jst/oc/operations/utilities')
+ROOT = pathlib.Path(__file__).resolve().parents[2] / 'artifacts' / 'bitstamp'
 
 def snapshot(market):
     r = requests.get(f'https://www.bitstamp.net/api/v2/order_book/{market}/', params={'group': 2}, timeout=20)
@@ -48,12 +48,13 @@ async def main():
         reader.cancel()
         try: await reader
         except asyncio.CancelledError: pass
-    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d-%H%M%S')
-    raw_path = ROOT / f'bitstamp-live-orders-{stamp}.json'
+    ROOT.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d_%H%M%S')
+    raw_path = ROOT / f'bitstamp_live_orders_{stamp}.json'
     raw_path.write_text(json.dumps(raw))
     result = audit(raw)
     report = {'raw_file':str(raw_path),'utc':raw['utc'],'method':'seed group=2 REST snapshot; replay order events by exchange microtimestamp, exclude events at/before seed timestamp; audit original event-id chain and replay in received order; report valid per-event and millisecond-grouped changes separately; check full order maps against periodic REST snapshots and diagnose websocket snapshot alignment; no resync; counts are observed reconstructed changes, not certified matching-engine updates', 'results':result}
-    report_path = ROOT / f'bitstamp-live-orders-{stamp}-summary.json'
+    report_path = ROOT / f'bitstamp_live_orders_{stamp}_summary.json'
     report_path.write_text(json.dumps(report, indent=2, default=str))
     print('market | valid per-event changes | millisecond-grouped changes | order_book changes')
     for market, result in report['results'].items():
