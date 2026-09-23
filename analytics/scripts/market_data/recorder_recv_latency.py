@@ -67,7 +67,7 @@ def compare(recorders: list[str], exchanges: list[str], data_type: str,
 
     rows = []
     for exchange in exchanges:
-        symbol_sets = [set(MarketData.available_symbols(exchange, data_type=data_type, recorder=r, source="influx"))
+        symbol_sets = [set(MarketData.available_symbols(exchange, data_type=data_type, recorder=r, source="influx")["symbol"])
                        for r in recorders]
         shared = sorted(set.intersection(*symbol_sets)) if symbol_sets else []
         if not shared:

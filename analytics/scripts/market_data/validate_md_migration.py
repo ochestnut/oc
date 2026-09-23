@@ -128,7 +128,7 @@ def run_validation(
                     # any exercises the updated default influx routing.
                     symbols = MarketData.available_symbols(
                         exchange, source=source, recorder="any", data_type=data_type,
-                        instrument_type=namespace, start=start, end=end)
+                        instrument_type=namespace, start=start, end=end)["symbol"]
                     listed[source] = {s for s in symbols if s.startswith(prefix)}
                     row["symbols"] = len(listed[source])
                     if not row["exchange_listed"] or not listed[source]:
