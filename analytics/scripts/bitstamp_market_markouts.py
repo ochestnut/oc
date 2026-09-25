@@ -8,8 +8,8 @@ Examples (run through run_bitstamp_markouts.sh):
 Default invocation retains the original public-trade, Bitstamp-local-mid report.
 """
 
-from analytics_paths import output_path
 import argparse
+import os
 from io import BytesIO
 from pathlib import Path
 import sys
@@ -51,7 +51,9 @@ def parse_args(argv=None):
     parser.add_argument("--assets", nargs="+", type=str.upper, choices=("BTC", "ETH", "SOL"), default=["BTC", "ETH", "SOL"])
     parser.add_argument("--refs", nargs="+", type=ref_exchange, default=["BITSTAMP"])
     parser.set_defaults(timestamp="exchange")
-    parser.add_argument("--output", type=Path, default=output_path("bitstamp_market_markouts.pdf", "reports"))
+    parser.add_argument("--output", type=Path,
+        default=Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "reports" / "bitstamp_market_markouts.pdf",
+    )
     args = parser.parse_args(argv)
     try:
         args.start, args.end = (pd.to_datetime(value, utc=True) for value in (args.start, args.end))

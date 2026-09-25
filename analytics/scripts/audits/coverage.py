@@ -13,12 +13,8 @@ Usage:
 
 from __future__ import annotations
 
-import sys as _path_sys
-from pathlib import Path as _Path
-_path_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "analytics/scripts"))
-from analytics_paths import output_path
-
 import argparse
+from pathlib import Path
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -369,8 +365,9 @@ def audit_exchange_canonical(coverage_csvs: list[str], books: list[str] | None =
         print(f"  }}")
 
     # Save full results for inspection.
-    here = str(output_path("placeholder", "audits").parent)
-    out = os.path.join(here, "audit_exchange_canonical.csv")
+    here = Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits"
+    here.mkdir(parents=True, exist_ok=True)
+    out = here / "audit_exchange_canonical.csv"
     df_out.to_csv(out, index=False)
     print(f"\n  → full results saved to {out}")
 
@@ -405,7 +402,7 @@ if __name__ == "__main__":
 
     # ── exchange canonical audit (standalone — no survey needed) ──
     if args.audit:
-        here = str(output_path("placeholder", "audits").parent)
+        here = Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits"
         csvs = args.coverage or [
             os.path.join(here, "influx_coverage_frankfurt_md_booktop.csv"),
             os.path.join(here, "influx_coverage_tokyo_md_booktop.csv"),
@@ -451,7 +448,8 @@ if __name__ == "__main__":
                 continue
             print_coverage(df, host)
 
-            out = output_path(f"influx_coverage_{label}_{meas}.csv", "audits")
+            out = Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits" / f"influx_coverage_{label}_{meas}.csv"
+            out.parent.mkdir(parents=True, exist_ok=True)
             df.to_csv(out, index=False)
             print(f"\n  → saved to {out}")
 

@@ -9,11 +9,6 @@ It does not copy, delete, or otherwise modify S3.
 
 from __future__ import annotations
 
-import sys as _path_sys
-from pathlib import Path as _Path
-_path_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "analytics/scripts"))
-from analytics_paths import output_path
-
 import argparse
 import math
 import os
@@ -123,7 +118,9 @@ def main() -> int:
     parser.add_argument("--compare-recorder", default="ap-northeast-1a_TY03")
     parser.add_argument("--samples-per-day", type=int, default=2)
     parser.add_argument("--max-workers", type=int, default=32)
-    parser.add_argument("--report", type=Path, default=output_path("audit_booktop_conversion_cutovers.csv", "audits"))
+    parser.add_argument("--report", type=Path,
+        default=Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits" / "audit_booktop_conversion_cutovers.csv",
+    )
     args = parser.parse_args()
 
     start, end = pd.Timestamp(args.start), pd.Timestamp(args.end)

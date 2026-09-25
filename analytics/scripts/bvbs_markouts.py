@@ -3,8 +3,8 @@
 Executions and reference prices use exchange time. An exact historical
 reproduction requires the original data cutoff and recorder.
 """
-from analytics_paths import output_path
 import argparse
+import os
 from io import BytesIO
 from pathlib import Path
 import sys
@@ -40,7 +40,7 @@ def parse_args(argv=None):
     a=p.parse_args(argv)
     if a.output is None:
         filename = 'bvbs_markouts.pdf' if a.mode == 'fills' else f'bvbs_{a.mode}_comparison.pdf'
-        a.output = output_path(filename, "reports")
+        a.output = Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "reports" / filename
     a.start=pd.to_datetime(a.start,utc=True)
     a.requested_end=pd.to_datetime(a.end,utc=True)
     a.end=min(a.requested_end, pd.Timestamp.now(tz='UTC'))

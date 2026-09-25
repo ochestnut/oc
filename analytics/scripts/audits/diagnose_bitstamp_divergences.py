@@ -3,12 +3,8 @@
 
 from __future__ import annotations
 
-import sys as _path_sys
-from pathlib import Path as _Path
-_path_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "analytics/scripts"))
-from analytics_paths import output_path
-
 import argparse
+import os
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import sys
@@ -51,7 +47,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--samples", type=Path, required=True)
     parser.add_argument("--max-workers", type=int, default=32)
-    parser.add_argument("--report", type=Path, default=output_path("diagnose_bitstamp_divergences.csv", "audits"))
+    parser.add_argument("--report", type=Path,
+        default=Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits" / "diagnose_bitstamp_divergences.csv",
+    )
     args = parser.parse_args()
     bucket = load_config()["S3_BUCKET"]
     fs = s3_client()

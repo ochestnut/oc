@@ -16,12 +16,10 @@ Usage:
     python probe_depth_topology.py [--out /path/to/topology.csv]
 """
 
-import sys as _path_sys
-from pathlib import Path as _Path
-_path_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "analytics/scripts"))
-from analytics_paths import output_path
 
 import argparse
+from pathlib import Path
+import os
 import re
 import sys
 from collections import defaultdict
@@ -133,7 +131,9 @@ def summarize(df: pd.DataFrame) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--out", type=str, default=str(output_path("depth_topology.csv", "audits")), help="CSV output path for the long presence table")
+    parser.add_argument("--out", type=str,
+        default=str(Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits" / "depth_topology.csv"), help="CSV output path for the long presence table",
+    )
     parser.add_argument("--diagnose", action="store_true", help="Dump per-node measurements + md_bookdepth tag keys, then exit")
     args = parser.parse_args()
 
@@ -143,6 +143,7 @@ def main() -> None:
 
     df = probe()
     summarize(df)
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(args.out, index=False)
     print(f"\nWrote {len(df)} presence rows to {args.out}")
 

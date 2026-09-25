@@ -3,11 +3,6 @@
 
 from __future__ import annotations
 
-import sys as _path_sys
-from pathlib import Path as _Path
-_path_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "analytics/scripts"))
-from analytics_paths import output_path
-
 import argparse
 import os
 import sys
@@ -93,7 +88,9 @@ def main() -> int:
     parser.add_argument("--exchange", default="BNBFUT")
     parser.add_argument("--recorder", default="S3_TY01")
     parser.add_argument("--max-workers", type=int, default=16)
-    parser.add_argument("--report", type=Path, default=output_path("audit_current_usdt_usdc_identity.csv", "audits"))
+    parser.add_argument("--report", type=Path,
+        default=Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits" / "audit_current_usdt_usdc_identity.csv",
+    )
     args = parser.parse_args()
     start, end = pd.Timestamp(args.start), pd.Timestamp(args.end)
     if end <= start or args.max_workers < 1:

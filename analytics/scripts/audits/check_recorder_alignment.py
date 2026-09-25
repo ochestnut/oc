@@ -10,11 +10,6 @@ found quickly; suspicious pairs can then receive an exhaustive targeted scan.
 
 from __future__ import annotations
 
-import sys as _path_sys
-from pathlib import Path as _Path
-_path_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "analytics/scripts"))
-from analytics_paths import output_path
-
 import argparse
 import math
 import os
@@ -102,7 +97,9 @@ def main() -> int:
     parser.add_argument("--chunks-per-day", type=int, default=2)
     parser.add_argument("--divergence", type=float, default=0.05)
     parser.add_argument("--max-workers", type=int, default=32)
-    parser.add_argument("--report", type=Path, default=output_path("check_recorder_alignment.csv", "audits"))
+    parser.add_argument("--report", type=Path,
+        default=Path(os.environ.get("JST_ANALYTICS_DIR", Path.home() / "Documents/jst/analytics")).expanduser() / "audits" / "check_recorder_alignment.csv",
+    )
     parser.add_argument(
         "--price-cache",
         type=Path,
