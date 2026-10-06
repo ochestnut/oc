@@ -19,6 +19,7 @@ venv/
 
 # notebooks need credential and saved-output cleanup before publishing
 analytics/notebooks/**/*.ipynb
+!analytics/notebooks/investigations/jdzm_md_lag.ipynb
 
 # legacy helpers contain embedded database credentials
 analytics/src/analytics/frankfurt_data.py
